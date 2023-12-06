@@ -1,0 +1,8 @@
+-- 타이타닉 전체 뷰를 만든 후, 그 뷰를 통해 가족 별로 가족 수, 생존자 수, 생존률 구하기
+
+CREATE VIEW titanic_view AS SELECT * FROM titanic_raw;
+
+select substring_index(name, '.',-1) title, count(*) as 가족수, sum(survived) as 생존자,
+round(sum(survived)/count(passengerid), 2) as 생존률
+from titanic_view where sibsp>=0 or parch>=0
+group by substring_index(name, '.',-1) order by title;
